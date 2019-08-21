@@ -193,10 +193,9 @@ def joinPairwiseMax(img1, img2):
     join_img = img1.copy()
     img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-    diff = img2_gray.astype(np.int) - img1_gray.astype(np.int)
-    diff_pixels = np.argwhere(diff >= 0)
-    for i in range(diff_pixels.__len__()):
-        join_img[diff_pixels[i][0], diff_pixels[i][1]] = img2[diff_pixels[i][0], diff_pixels[i][1]]
+
+    mask = np.where(img2_gray>img1_gray, True, False)
+    join_img[mask] = img2[mask]
     return join_img
 
 
@@ -204,10 +203,8 @@ def joinPairwiseMin(img1, img2):
     join_img = img1.copy()
     img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-    diff = img2_gray.astype(np.int) - img1_gray.astype(np.int)
-    diff_pixels = np.argwhere(diff <= 0)
-    for i in range(diff_pixels.__len__()):
-        join_img[diff_pixels[i][0], diff_pixels[i][1]] = img2[diff_pixels[i][0], diff_pixels[i][1]]
+    mask = np.where(img2_gray<=img1_gray, True, False)
+    join_img[mask] = img2[mask]
     return join_img
 
 

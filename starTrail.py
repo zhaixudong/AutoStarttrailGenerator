@@ -226,43 +226,38 @@ def joinPairwiseMean(img1, img2):
 def joinBatch(filenames, method='max', diffTh=10):
     print("Initializing ...")
 
-    img1 = cv2.imread(filenames[0])
-    img2 = cv2.imread(filenames[1])
+    imgtar = cv2.imread(filenames[0])
 
     if method is 'max':
         print("starting using max method for pixel fusion...")
-        join = joinPairwiseMax(img1, img2)
-        for i in range(2, filenames.__len__()):
+        for i in range(1, filenames.__len__()):
             print(i + 1, "/", filenames.__len__())
             tmp_img = cv2.imread(filenames[i])
-            join = joinPairwiseMax(join, tmp_img)
+            imgtar = joinPairwiseMax(imgtar, tmp_img)
 
     elif method is 'min':
         print("starting using min method for pixel fusion...")
-        join = joinPairwiseMin(img1, img2)
-        for i in range(2, filenames.__len__()):
+        for i in range(1, filenames.__len__()):
             print(i + 1, "/", filenames.__len__())
             tmp_img = cv2.imread(filenames[i])
-            join = joinPairwiseMin(join, tmp_img)
+            imgtar = joinPairwiseMin(imgtar, tmp_img)
 
     elif method is 'mean':
         print("starting using mean method for pixel fusion...")
-        join = joinPairwiseMean(img1, img2)
-        for i in range(2, filenames.__len__()):
+        for i in range(1, filenames.__len__()):
             print(i + 1, "/", filenames.__len__())
             tmp_img = cv2.imread(filenames[i])
-            join = joinPairwiseMean(join, tmp_img)
+            imgtar = joinPairwiseMean(imgtar, tmp_img)
 
     elif method is 'th':
         print("starting using threshold method for pixel fusion...")
-        join = joinPairwiseTh(img1, img2, diffTh=diffTh)
-        for i in range(2, filenames.__len__()):
+        for i in range(1, filenames.__len__()):
             print(i + 1, "/", filenames.__len__())
             tmp_img = cv2.imread(filenames[i])
-            join = joinPairwiseTh(join, tmp_img, diffTh=diffTh)
+            imgtar = joinPairwiseTh(imgtar, tmp_img, diffTh=diffTh)
 
     print("star trail join finished!")
-    return join
+    return imgtar
 
 
 def main():

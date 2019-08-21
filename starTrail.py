@@ -193,7 +193,6 @@ def joinPairwiseMax(img1, img2):
     join_img = img1.copy()
     img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-
     mask = np.where(img2_gray>img1_gray, True, False)
     join_img[mask] = img2[mask]
     return join_img
@@ -210,14 +209,7 @@ def joinPairwiseMin(img1, img2):
 
 @jit(nopython=True)
 def joinPairwiseMean(img1, img2):
-    join_img = img1.copy()
-    for i in range(img1.shape[0]):
-        for j in range(img2.shape[1]):
-            mean_b = (img1[i, j, 0] + img2[i, j, 0]) / 2
-            mean_g = (img1[i, j, 1] + img2[i, j, 1]) / 2
-            mean_r = (img1[i, j, 2] + img2[i, j, 2]) / 2
-            join_img[i, j] = [mean_b, mean_g, mean_r]
-    return join_img
+    return (img1+img2)/2
 
 
 def joinBatch(filenames, method='max', diffTh=10):

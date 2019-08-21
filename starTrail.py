@@ -73,14 +73,14 @@ def getEntropyMap(img, big_win_w=7, big_win_h=7, small_win_w=3, small_win_h=3):
             if counter % step == 0:
                 if times.__len__() == 0:
                     times.append(time.time())
-                    print round((counter * 1.0 / total_pixel) * 100, 2), "% finished"
+                    print(round((counter * 1.0 / total_pixel) * 100, 2), "% finished")
                 else:
                     times.append(time.time())
                     dt = times[-1] - times[-2]
                     remain_time = round(((total_pixel - counter) / step) * dt)
-                    print round((counter * 1.0 / total_pixel) * 100), "% finished,", \
-                        "remain time:", remain_time, "s"
-    print "100% finished"
+                    print( round((counter * 1.0 / total_pixel) * 100), "% finished,",
+                            "remain time:", remain_time, "s")
+    print("100% finished")
     mean_entropy = np.mean(entropy_img)
     entropy_img = np.where(entropy_img == 0, mean_entropy, entropy_img)
     return entropy_img
@@ -89,14 +89,14 @@ def getEntropyMap(img, big_win_w=7, big_win_h=7, small_win_w=3, small_win_h=3):
 def getEntropyThreshold(entropy_img, methold='mean'):
     if methold == 'mean':
         mean_entropy = np.mean(entropy_img)
-        print "mean", mean_entropy * 1.2
+        print("mean", mean_entropy * 1.2)
         return mean_entropy
     elif methold == 'stat':
         # 确定合适阈值
         max_val = np.max(entropy_img)
         min_val = np.min(entropy_img)
-        print "max", max_val
-        print "min", min_val
+        print("max", max_val)
+        print("min", min_val)
         step_length = (max_val - min_val) / 10
         bin = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         for i in range(entropy_img.shape[0]):
@@ -132,7 +132,7 @@ def joinPairwiseEntropy(img1, img2, entropy_mask):
 
 
 def joinBatchEntropy(imgs, entropy_reference=0):
-    print "Initializing ..."
+    print("Initializing ...")
     img1 = cv2.imread(imgs[0])
     img2 = cv2.imread(imgs[1])
 
@@ -140,10 +140,10 @@ def joinBatchEntropy(imgs, entropy_reference=0):
     entropy_th = getEntropyThreshold(entropy_img, methold='mean')
     mask = getEntropyMask(entropy_img, entropy_th)
 
-    print "starting using entropy method for pixel fusion..."
+    print("starting using entropy method for pixel fusion...")
     join = joinPairwiseEntropy(img1, img2, mask)
     for i in range(2, imgs.__len__()):
-        print i + 1, "/", imgs.__len__()
+        print(i + 1, "/", imgs.__len__())
         tmp_img = cv2.imread(imgs[i])
         join = joinPairwiseEntropy(join, tmp_img, mask)
     return join
@@ -171,7 +171,7 @@ def findAllFiles(root_dir, filter):
                 names.append(filename)
     for i in range(paths.__len__()):
         files.append(paths[i] + names[i])
-    print (names.__len__().__str__() + " files have been found.")
+    print(names.__len__().__str__() + " files have been found.")
     paths.sort()
     names.sort()
     files.sort()
@@ -224,39 +224,39 @@ def joinPairwiseMean(img1, img2):
 
 
 def joinBatch(imgs, method='max', diffTh=10):
-    print "Initializing ..."
+    print("Initializing ...")
     img1 = cv2.imread(imgs[0])
     img2 = cv2.imread(imgs[1])
     if method is 'max':
-        print "starting using max method for pixel fusion..."
+        print("starting using max method for pixel fusion...")
         join = joinPairwiseMax(img1, img2)
         for i in range(2, imgs.__len__()):
-            print i + 1, "/", imgs.__len__()
+            print(i + 1, "/", imgs.__len__())
             tmp_img = cv2.imread(imgs[i])
             join = joinPairwiseMax(join, tmp_img)
     elif method is 'min':
-        print "starting using min method for pixel fusion..."
+        print("starting using min method for pixel fusion...")
         join = joinPairwiseMin(img1, img2)
         for i in range(2, imgs.__len__()):
-            print i + 1, "/", imgs.__len__()
+            print(i + 1, "/", imgs.__len__())
             tmp_img = cv2.imread(imgs[i])
             join = joinPairwiseMin(join, tmp_img)
     elif method is 'mean':
-        print "starting using mean method for pixel fusion..."
+        print("starting using mean method for pixel fusion...")
         join = joinPairwiseMean(img1, img2)
         for i in range(2, imgs.__len__()):
-            print i + 1, "/", imgs.__len__()
+            print(i + 1, "/", imgs.__len__())
             tmp_img = cv2.imread(imgs[i])
             join = joinPairwiseMean(join, tmp_img)
     elif method is 'th':
-        print "starting using threshold method for pixel fusion..."
+        print("starting using threshold method for pixel fusion...")
         join = joinPairwiseTh(img1, img2, diffTh=diffTh)
         for i in range(2, imgs.__len__()):
-            print i + 1, "/", imgs.__len__()
+            print(i + 1, "/", imgs.__len__())
             tmp_img = cv2.imread(imgs[i])
             join = joinPairwiseTh(join, tmp_img, diffTh=diffTh)
 
-    print "star trail join finished!"
+    print("star trail join finished!")
     return join
 
 

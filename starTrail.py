@@ -182,10 +182,10 @@ def joinPairwiseTh(img1, img2, diffTh=10):
     join_img = img1.copy()
     img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     diff = img2_gray.astype(np.int) - img1_gray.astype(np.int)
-    diff_pixels = np.argwhere(diff > diffTh)
-    for i in range(diff_pixels.__len__()):
-        join_img[diff_pixels[i][0], diff_pixels[i][1]] = img2[diff_pixels[i][0], diff_pixels[i][1]]
+    mask = np.where( diff > diffTh, True, False)
+    join_img[mask] = img2[mask]
     return join_img
 
 

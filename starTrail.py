@@ -262,9 +262,9 @@ def joinBatch(filenames, method='max', diffTh=10):
 
 def main():
     _, _, filenames = findAllFiles("./test/", ".jpg")
-    res1 = joinBatchEntropy(filenames)
+    # res1 = joinBatchEntropy(filenames)
     res2 = joinBatch(filenames)
-    cv2.imwrite("res1.jpg", res1)
+    # cv2.imwrite("res1.jpg", res1)
     cv2.imwrite("res2.jpg", res2)
 
 if __name__ == '__main__':

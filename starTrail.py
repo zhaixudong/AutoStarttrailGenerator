@@ -265,9 +265,12 @@ def joinBatch(filenames, method='max', diffTh=10):
     return join
 
 
-if __name__ == '__main__':
-    _, _, fullnames = findAllFiles("./test/", ".jpg")
-    res1 = joinBatchEntropy(fullnames)
-    res2 = joinBatch(fullnames)
+def main():
+    _, _, filenames = findAllFiles("./test/", ".jpg")
+    res1 = joinBatchEntropy(filenames)
+    res2 = joinBatch(filenames)
     cv2.imwrite("res1.jpg", res1)
     cv2.imwrite("res2.jpg", res2)
+
+if __name__ == '__main__':
+    main()
